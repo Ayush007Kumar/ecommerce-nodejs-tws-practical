@@ -3,7 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm ci --omit=dev
 
 COPY . .
 
@@ -15,4 +15,4 @@ ENV PORT=3000 \
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "./bin/www"]
