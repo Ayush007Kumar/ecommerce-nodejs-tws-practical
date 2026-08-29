@@ -16,11 +16,21 @@ var app = express();
 // Set base dir
 global.__basedir = __dirname;
 
-var corsOptions = {
-  origin: 'http://localhost:8000', // Matches the frontend
-  optionsSuccessStatus: 200
-}
-app.use(cors(corsOptions));
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://localhost:5173,http://localhost:8000").split(",");
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use(logger("dev"));
 app.use(express.json());
