@@ -5,7 +5,8 @@ var { reviewSchema } = require("../models/review");
 var { shopSchema } = require("../models/shop");
 var { userSchema } = require("../models/user");
 
-mongoose.connect("mongodb://admin:password@localhost:27017/ecommerce");
+const mongoUri = process.env.MONGODB_URI || "mongodb://admin:password@localhost:27017/ecommerce";
+mongoose.connect(mongoUri);
 
 const Site = mongoose.model("Site", siteSchema);
 const User = mongoose.model("User", userSchema);
