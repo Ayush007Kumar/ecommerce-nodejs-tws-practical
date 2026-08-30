@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var { seedDatabase } = require('../seed');
 var debug = require('debug')('backend:server');
 var http = require('http');
 
@@ -21,13 +22,16 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+seedDatabase()
+  .then(() => {
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  })
+  .catch((err) => {
+    console.error('Failed to seed database:', err);
+    process.exit(1);
+  });
 
 /**
  * Normalize a port into a number, string, or false.
