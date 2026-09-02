@@ -77,12 +77,12 @@ export default {
         </div>
       </div>
     </div>
-    <section class="my-8 grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm sm:grid-cols-4">
+    <div class="my-8 grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm sm:grid-cols-4">
       <div><p class="text-2xl font-black text-indigo-600">24h</p><p class="text-xs font-bold uppercase text-slate-400">Fast dispatch</p></div>
       <div><p class="text-2xl font-black text-indigo-600">100%</p><p class="text-xs font-bold uppercase text-slate-400">Curated finds</p></div>
       <div><p class="text-2xl font-black text-indigo-600">4.8/5</p><p class="text-xs font-bold uppercase text-slate-400">Happy buyers</p></div>
       <div><p class="text-2xl font-black text-indigo-600">Secure</p><p class="text-xs font-bold uppercase text-slate-400">Checkout</p></div>
-    </section>
+    </div>
     <section id="products">
       <div class="mb-5 flex items-end justify-between">
         <div><p class="text-sm font-bold uppercase tracking-wider text-indigo-600">Handpicked for you</p><h2 class="mt-1 text-3xl font-black text-slate-900">Trending now</h2></div>
