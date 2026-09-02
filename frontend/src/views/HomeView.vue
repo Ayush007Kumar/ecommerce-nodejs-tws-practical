@@ -39,7 +39,7 @@ export default {
 
 <template>
   <main class="market-container pb-16 pt-5">
-    <section class="grid overflow-hidden rounded-2xl bg-slate-900 shadow-xl lg:grid-cols-[1.1fr_.9fr]">
+    <section class="market-hero grid overflow-hidden rounded-2xl bg-slate-900 shadow-xl lg:grid-cols-[1.1fr_.9fr]">
       <div class="flex flex-col justify-center px-7 py-12 sm:px-12 lg:py-16">
         <p class="mb-4 text-sm font-bold uppercase tracking-wider text-cyan-300">Fresh finds, thoughtfully picked</p>
         <h1 class="max-w-xl text-4xl font-black leading-tight text-white sm:text-6xl">Good things should be easy to find.</h1>
@@ -91,7 +91,7 @@ export default {
       <div class="mb-5"><p class="text-sm font-bold uppercase tracking-wider text-indigo-600">Shop by mood</p><h2 class="mt-1 text-3xl font-black text-slate-900">Browse categories</h2></div>
       <p v-if="dataLoaded && !categories.length" class="text-base-content/70">No categories have been added yet.</p>
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div v-for="category in categories" :key="category._id" class="rounded-xl bg-indigo-600 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-slate-900">
+        <div v-for="category in categories" :key="category._id" class="category-tile rounded-xl bg-indigo-600 p-6 shadow-sm hover:bg-slate-900">
           <router-link :to="`/category/${category._id}`" class="text-xl font-black text-white hover:underline">{{ category.name }}</router-link>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default {
       class="product-card group"
     >
       <figure class="relative h-56 overflow-hidden bg-slate-100">
-        <img class="h-full w-full object-cover transition duration-500 group-hover:scale-105" :src="product.images[0]" :alt="product.name" />
+        <img class="product-image h-full w-full object-cover transition duration-500 group-hover:scale-105" :src="product.images[0]" :alt="product.name" loading="lazy" />
         <span class="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-xs font-bold text-indigo-700 shadow-sm">TOP PICK</span>
       </figure>
       <div class="p-4">

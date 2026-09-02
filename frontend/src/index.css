@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+	font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
 	color: #172033;
 	background: #f4f6fb;
 }
@@ -25,6 +25,23 @@ input {
 	background: linear-gradient(180deg, #eef3ff 0, #f7f8fc 340px, #f4f6fb 100%);
 }
 
+.market-topline {
+	background: #111827;
+	color: #dbeafe;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.market-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: rgba(255, 255, 255, 0.96);
+	backdrop-filter: blur(14px);
+}
+
 .market-container {
 	width: min(1240px, calc(100% - 32px));
 	margin: 0 auto;
@@ -36,9 +53,56 @@ input {
 	border-radius: 10px;
 	background: #fff;
 	box-shadow: 0 8px 24px rgba(25, 43, 76, 0.06);
+	transform: translateZ(0);
+	transform-style: preserve-3d;
+	transition: transform 260ms ease, box-shadow 260ms ease;
 }
 
 .product-card:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 14px 30px rgba(25, 43, 76, 0.12);
+	transform: perspective(900px) translateY(-8px) rotateX(1deg) rotateY(-1deg);
+	box-shadow: 0 22px 38px rgba(25, 43, 76, 0.16);
+}
+
+.product-image {
+	transform: translateZ(18px);
+}
+
+.market-hero {
+	position: relative;
+	isolation: isolate;
+	box-shadow: 0 24px 50px rgba(25, 43, 76, 0.2);
+	transform: perspective(1400px) rotateX(1deg);
+}
+
+.market-hero::after {
+	position: absolute;
+	z-index: -1;
+	content: "";
+	width: 70%;
+	height: 22px;
+	bottom: -18px;
+	left: 15%;
+	border-radius: 50%;
+	background: rgba(25, 43, 76, 0.2);
+	filter: blur(14px);
+}
+
+.category-tile {
+	transform: translateZ(0);
+	transform-style: preserve-3d;
+	transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.category-tile:hover {
+	transform: perspective(700px) translateY(-6px) rotateX(3deg) rotateY(-3deg);
+	box-shadow: 0 18px 28px rgba(49, 46, 129, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
 }
