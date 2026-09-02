@@ -58,6 +58,9 @@ const jwt = require("jsonwebtoken");
 
 async function userLogin(req, res, next) {
   const user = await User.findOne({ email: req.body.email }).populate("role");
+  if (!user) {
+    return res.status(401).send("Username or password not correct.");
+  }
   const match = await authUser(req.body.password, user.password);
   if (match == true) {
     const token = jwt.sign(

@@ -13,13 +13,19 @@ services:
     volumes:
       - mongo_data:/data/db
       - ./backend/mongo-entrypoint/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --username admin --password password --authenticationDatabase admin --eval 'db.adminCommand({ ping: 1 }).ok' | grep 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     ports:
       - "3000:3000"
     environment:

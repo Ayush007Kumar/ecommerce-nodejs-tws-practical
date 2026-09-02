@@ -54,3 +54,16 @@ async function seedDatabase() {
 }
 
 module.exports = { seedDatabase };
+
+if (require.main === module) {
+  seedDatabase()
+    .then(async () => {
+      await mongoose.disconnect();
+      console.log("Database seed completed.");
+    })
+    .catch(async (err) => {
+      console.error("Database seed failed:", err);
+      await mongoose.disconnect();
+      process.exit(1);
+    });
+}
