@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import { useUserStore } from "@/stores/user";
+import router from "@/router";
 
 export default {
   setup() {
@@ -12,12 +13,14 @@ export default {
     return {
       email: "",
       password: "",
+      errorMessage: "",
     };
   },
 
   methods: {
     async login() {
       try {
+        this.errorMessage = "";
         const token = await axios({
           baseURL: import.meta.env.VITE_BACKENDURL,
           method: "post",
@@ -27,9 +30,11 @@ export default {
             password: this.password,
           },
         });
-        await this.userStore.setToken(token.data);
-        window.location.reload(); // Refresh the page
+        this.userStore.setToken(token.data);
+        const user = this.userStore.getUser;
+        await router.push(user.role === "admin" ? "/admin" : user.role === "seller" ? "/dashboard" : "/");
       } catch (e) {
+        this.errorMessage = e.response?.data || "Login failed. Check your email and password.";
         console.log(e);
       }
     },
@@ -67,6 +72,8 @@ export default {
       </div>
 
       <button class="btn btn-outline btn-primary w-full">Log In</button>
+
+      <p v-if="errorMessage" class="text-error text-sm">{{ errorMessage }}</p>
 
       <small class="text-right text-xs"
         >Don't have an account? Register
