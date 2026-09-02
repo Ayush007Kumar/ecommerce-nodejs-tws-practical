@@ -24,9 +24,9 @@ services:
       - "3000:3000"
     environment:
       PORT: 3000
-      MONGODB_URI: mongodb://admin:password@mongo:27017/ecommerce
+      MONGODB_URI: mongodb://admin:password@mongo:27017/ecommerce?authSource=admin
       JWT_KEY: supersecretkey
-      ALLOWED_ORIGINS: http://localhost:80,http://localhost:5173,http://localhost:8000
+      ALLOWED_ORIGINS: http://localhost,http://localhost:80,http://localhost:5173,http://localhost:8000
     env_file:
       - .env.example
 
@@ -35,7 +35,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_BACKENDURL: http://localhost:3000
+        VITE_BACKENDURL: ""
     depends_on:
       - backend
     ports:
