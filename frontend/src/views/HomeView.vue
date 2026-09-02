@@ -11,6 +11,7 @@ export default {
       shops: {},
       categories: {},
       dataLoaded: false,
+      loadError: "",
     };
   },
 
@@ -43,6 +44,7 @@ export default {
 
       this.dataLoaded = true;
     } catch (e) {
+      this.loadError = "Unable to load catalog data. Check the backend connection.";
       console.log(e);
     }
   },
@@ -72,9 +74,16 @@ export default {
     </div>
     <!-- Recent Products -->
     <h2 class="font-bold text-2xl">Recent Products</h2>
-    <ProductGrid :products="this.products"></ProductGrid>
+    <p v-if="loadError" class="text-error">{{ loadError }}</p>
+    <p v-else-if="dataLoaded && !products.length" class="text-base-content/70">
+      No products have been added yet.
+    </p>
+    <ProductGrid v-else :products="this.products"></ProductGrid>
     <!-- Shops -->
     <h2 class="font-bold text-2xl">Shops</h2>
+    <p v-if="dataLoaded && !shops.length" class="text-base-content/70">
+      No shops have been added yet.
+    </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       <div
         v-for="(shop, key) in this.shops"
@@ -97,6 +106,9 @@ export default {
     </div>
     <!-- Categories -->
     <h2 class="font-bold text-2xl">Categories</h2>
+    <p v-if="dataLoaded && !categories.length" class="text-base-content/70">
+      No categories have been added yet.
+    </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       <div
         v-for="(category, key) in this.categories"
