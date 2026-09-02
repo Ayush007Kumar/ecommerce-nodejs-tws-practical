@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { hashPass } = require("./auth");
 const { userSchema, roleSchema } = require("./models/user");
 
-const mongoUri = process.env.MONGODB_URI || "mongodb://admin:password@localhost:27017/ecommerce";
+const mongoUri = process.env.MONGODB_URI || "mongodb://admin:password@localhost:27017/ecommerce?authSource=admin";
 
 async function seedDatabase() {
   if (mongoose.connection.readyState === 0) {

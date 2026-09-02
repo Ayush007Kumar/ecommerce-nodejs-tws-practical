@@ -9,7 +9,7 @@ COPY . .
 
 ENV PORT=3000 \
     NODE_ENV=production \
-    MONGODB_URI=mongodb://admin:password@mongo:27017/ecommerce \
+    MONGODB_URI=mongodb://admin:password@mongo:27017/ecommerce?authSource=admin \
     JWT_KEY=supersecretkey \
     ALLOWED_ORIGINS=http://localhost:5173,http://localhost:8000
 
