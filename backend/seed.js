@@ -100,8 +100,8 @@ async function seedDatabase() {
     );
   }
 
-  if (shop && (await Product.countDocuments()) === 0) {
-    const products = await Product.insertMany([
+  if (shop) {
+    const productDefinitions = [
       {
         name: "Ceramic Pour-Over Set",
         price: "42.00",
@@ -126,7 +126,57 @@ async function seedDatabase() {
         categories: [categories.Apparel._id],
         shop: shop._id,
       },
-    ]);
+      {
+        name: "Minimal Leather Wallet",
+        price: "36.00",
+        description: "Slim vegetable-tanned leather wallet with room for the essentials.",
+        images: ["https://images.unsplash.com/photo-1627123424574-724758594e93?w=900"],
+        categories: [categories.Apparel._id],
+        shop: shop._id,
+      },
+      {
+        name: "Desk Organization Tray",
+        price: "29.00",
+        description: "A calm landing place for keys, cards, and daily essentials.",
+        images: ["https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=900"],
+        categories: [categories.Home._id],
+        shop: shop._id,
+      },
+      {
+        name: "Everyday Bluetooth Speaker",
+        price: "79.00",
+        description: "Compact wireless audio with warm sound for every room.",
+        images: ["https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=900"],
+        categories: [categories.Tech._id],
+        shop: shop._id,
+      },
+      {
+        name: "Soft Knit Throw",
+        price: "54.00",
+        description: "A textured cotton throw that adds comfort without the clutter.",
+        images: ["https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=900"],
+        categories: [categories.Home._id],
+        shop: shop._id,
+      },
+      {
+        name: "Classic Everyday Cap",
+        price: "22.00",
+        description: "A breathable cotton cap with an adjustable back strap.",
+        images: ["https://images.unsplash.com/photo-1521369909029-2afed882baee?w=900"],
+        categories: [categories.Apparel._id],
+        shop: shop._id,
+      },
+    ];
+
+    const products = [];
+    for (const definition of productDefinitions) {
+      const product = await Product.findOneAndUpdate(
+        { name: definition.name },
+        definition,
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      products.push(product);
+    }
 
     await Shop.findByIdAndUpdate(shop._id, {
       $addToSet: { products: { $each: products.map((product) => product._id) } },
