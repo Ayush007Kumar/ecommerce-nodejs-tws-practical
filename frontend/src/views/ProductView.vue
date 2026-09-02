@@ -1,14 +1,21 @@
 <script>
 import axios from "axios";
 import ImageSlideShow from "@/components/ImageSlideShow.vue";
+import { useCartStore } from "@/stores/cart";
 
 export default {
   components: { ImageSlideShow },
+
+  setup() {
+    const cartStore = useCartStore();
+    return { cartStore };
+  },
 
   data() {
     return {
       product: {},
       dataLoaded: false,
+      quantity: 1,
     };
   },
 
@@ -33,6 +40,9 @@ export default {
   },
 
   methods: {
+    addToCart() {
+      this.cartStore.addItem(this.product, this.quantity);
+    },
     trimText(text = "", n = 20) {
       return text.substring(0, n) + "...";
     },
@@ -98,13 +108,14 @@ export default {
             <button class="btn btn-square btn-outline btn-primary">-</button>
             <input
               type="text"
-              placeholder="Choose the amount..."
+              min="1"
+              v-model.number="quantity"
               class="input input-bordered w-full"
             />
             <button class="btn btn-square btn-outline btn-primary">+</button>
           </div>
         </div>
-        <button class="btn btn-primary">Add to Cart</button>
+        <button @click="addToCart" class="btn btn-primary">Add to Cart</button>
       </div>
     </div>
     <div class="divider"></div>

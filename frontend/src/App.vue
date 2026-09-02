@@ -1,11 +1,13 @@
 <script>
 import axios from "axios";
 import { useUserStore } from "@/stores/user";
+import { useCartStore } from "@/stores/cart";
 
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const cartStore = useCartStore();
+    return { userStore, cartStore };
   },
   data() {
     return {
@@ -57,10 +59,12 @@ export default {
 </script>
 
 <template>
-  <header class="navbar bg-base-100 mb-4 shadow-md rounded-md">
+  <div class="market-shell">
+  <header class="border-b border-slate-200 bg-white shadow-sm">
+    <div class="market-container flex min-h-20 items-center gap-4">
     <div class="navbar-start w-auto sm:w-1/2">
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost">
+        <label tabindex="0" class="btn btn-ghost text-slate-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -85,9 +89,15 @@ export default {
       </div>
     </div>
     <div class="navbar-center">
-      <router-link to="/" class="btn btn-ghost normal-case text-lg sm:text-xl"
-        >Nodejs eCommerce</router-link
+      <router-link to="/" class="text-xl font-black tracking-tight text-slate-900 sm:text-2xl"
+        ><span class="text-indigo-600">Northstar</span> Market</router-link
       >
+    </div>
+    <div class="hidden flex-1 md:block">
+      <label class="flex h-11 items-center gap-3 rounded-md bg-slate-100 px-4 text-sm text-slate-400">
+        <span class="text-lg">⌕</span>
+        <input class="w-full bg-transparent outline-none" placeholder="Search products, shops and more" />
+      </label>
     </div>
     <div class="navbar-end">
       <div class="dropdown dropdown-end">
@@ -107,7 +117,7 @@ export default {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <span class="badge badge-sm indicator-item">8</span>
+            <span class="badge badge-sm indicator-item">{{ cartStore.itemCount }}</span>
           </div>
         </label>
         <div
@@ -115,8 +125,8 @@ export default {
           class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow-md rounded-md"
         >
           <div class="card-body">
-            <span class="font-bold text-lg">8 Items</span>
-            <span class="text-info">Subtotal: $999</span>
+            <span class="font-bold text-lg">{{ cartStore.itemCount }} Items</span>
+            <span class="text-info">Subtotal: ${{ cartStore.subtotal.toFixed(2) }}</span>
             <div class="card-actions">
               <router-link to="/cart" class="btn btn-primary btn-block"
                 >View cart</router-link
@@ -127,7 +137,7 @@ export default {
       </div>
       <router-link
         to="/login"
-        class="btn btn-ghost normal-case text-base"
+        class="rounded-md bg-indigo-600 px-4 py-2 font-bold text-white hover:bg-indigo-700"
         :class="{ hidden: this.user.isLoggedIn }"
       >
         Log In
@@ -164,11 +174,18 @@ export default {
         </ul>
       </div>
     </div>
+    </div>
+    <nav class="hidden border-t border-slate-100 bg-white md:block">
+      <div class="market-container flex h-11 items-center gap-8 text-sm font-bold text-slate-500">
+        <router-link to="/" class="hover:text-indigo-600">Home</router-link>
+        <a href="/#products" class="hover:text-indigo-600">Trending</a>
+        <a href="/#shops" class="hover:text-indigo-600">Shops</a>
+        <a href="/#categories" class="hover:text-indigo-600">Categories</a>
+      </div>
+    </nav>
   </header>
   <router-view :userID="user.id"></router-view>
-  <footer
-    class="footer footer-center p-10 bg-base-200 text-base-content rounded shadow-md mt-4"
-  >
+  <footer class="mt-10 border-t border-slate-200 bg-slate-900 px-6 py-10 text-center text-slate-400">
     <div class="grid grid-flow-col gap-4">
       <a class="link link-hover">About us</a>
       <a class="link link-hover">Contact</a>
@@ -216,9 +233,10 @@ export default {
       </div>
     </div>
     <div>
-      <p>Copyright © 2022 - All right reserved by ACME Industries Ltd</p>
+      <p>Copyright 2026 Northstar Market. All rights reserved.</p>
     </div>
   </footer>
+  </div>
 </template>
 
 <style></style>

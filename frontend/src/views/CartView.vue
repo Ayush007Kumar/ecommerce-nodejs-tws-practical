@@ -1,115 +1,59 @@
-<script></script>
+<script>
+import { useCartStore } from "@/stores/cart";
+
+export default {
+  setup() {
+    const cartStore = useCartStore();
+    return { cartStore };
+  },
+  methods: {
+    formatPrice(value) {
+      return Number(value).toFixed(2);
+    },
+  },
+};
+</script>
 
 <template>
-  <main class="flex flex-col space-y-4 mx-2 md:mx-0">
-    <div class="overflow-x-auto my-8">
-      <table class="table w-full">
-        <!-- head -->
+  <main class="market-container py-10">
+    <div class="mb-8">
+      <p class="text-sm font-bold uppercase tracking-wider text-indigo-600">Your selection</p>
+      <h1 class="mt-1 text-4xl font-black text-slate-900">Shopping cart</h1>
+    </div>
+    <div v-if="!cartStore.items.length" class="rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
+      <p class="text-xl font-bold text-slate-700">Your cart is empty</p>
+      <p class="mt-2 text-slate-500">Add something beautiful from the collection.</p>
+      <router-link to="/" class="mt-6 inline-block rounded-md bg-indigo-600 px-5 py-3 font-bold text-white">Continue shopping</router-link>
+    </div>
+    <div v-else class="grid gap-8 lg:grid-cols-[1fr_340px]">
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table class="w-full text-left">
         <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Number</th>
-            <th>Price</th>
-            <th>Action</th>
+          <tr class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-400">
+            <th class="p-4">Item</th>
+            <th class="p-4">Quantity</th>
+            <th class="p-4">Price</th>
+            <th class="p-4">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="hover">
-            <th>1</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>2</td>
-            <td>$ 25</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>2</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>3</td>
-            <td>$ 70</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>3</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>1</td>
-            <td>$ 15</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>4</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>5</td>
-            <td>$ 125</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>6</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>1</td>
-            <td>$ 90</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>7</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>5</td>
-            <td>$ 257</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>8</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>2</td>
-            <td>$ 20</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
-          </tr>
-          <tr class="hover">
-            <th>9</th>
-            <td>Lorem ipsum dolor sit amet</td>
-            <td>4</td>
-            <td>$ 75</td>
-            <td class="flex space-x-2">
-              <button class="btn btn-outline btn-error">Delete</button>
-              <button class="btn">Update Number</button>
-            </td>
+          <tr v-for="item in cartStore.items" :key="item.id" class="border-b border-slate-100">
+            <td class="flex items-center gap-3 p-4"><img :src="item.image" :alt="item.name" class="h-16 w-16 rounded-md object-cover" /><span class="font-bold text-slate-700">{{ item.name }}</span></td>
+            <td class="p-4"><input type="number" min="1" :value="item.quantity" @change="cartStore.updateQuantity(item.id, $event.target.value)" class="w-20 rounded-md border border-slate-200 px-3 py-2" /></td>
+            <td class="p-4 font-bold text-slate-900">${{ formatPrice(Number(item.price) * item.quantity) }}</td>
+            <td class="p-4"><button @click="cartStore.removeItem(item.id)" class="text-sm font-bold text-red-500 hover:text-red-700">Remove</button></td>
           </tr>
         </tbody>
-        <tfoot>
-          <tr>
-            <th>Totals</th>
-            <th></th>
-            <th>20</th>
-            <th>$ 800</th>
-            <th>
-              <router-link to="/checkout" class="btn btn-primary w-full"
-                >Check Out</router-link
-              >
-            </th>
-          </tr>
-        </tfoot>
       </table>
+    </div>
+    <aside class="h-fit rounded-xl bg-slate-900 p-6 text-white shadow-lg">
+      <h2 class="text-xl font-black">Order summary</h2>
+      <div class="mt-6 flex justify-between text-slate-300"><span>Items</span><span>{{ cartStore.itemCount }}</span></div>
+      <div class="mt-3 flex justify-between text-slate-300"><span>Delivery</span><span class="text-cyan-300">FREE</span></div>
+      <div class="my-6 border-t border-slate-700"></div>
+      <div class="flex justify-between text-xl font-black"><span>Total</span><span>${{ formatPrice(cartStore.subtotal) }}</span></div>
+      <router-link to="/checkout" class="mt-6 block rounded-md bg-cyan-400 px-4 py-3 text-center font-black text-slate-950 hover:bg-cyan-300">Proceed to checkout</router-link>
+    </aside>
     </div>
   </main>
 </template>
