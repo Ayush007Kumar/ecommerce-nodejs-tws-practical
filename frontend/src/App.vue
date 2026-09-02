@@ -60,7 +60,13 @@ export default {
 
 <template>
   <div class="market-shell">
-  <header class="border-b border-slate-200 bg-white shadow-sm">
+  <div class="market-topline">
+    <div class="market-container flex h-8 items-center justify-between">
+      <span>Independent makers. Better everyday goods.</span>
+      <span class="hidden sm:inline">Free delivery on orders over $50</span>
+    </div>
+  </div>
+  <header class="market-header border-b border-slate-200 shadow-sm">
     <div class="market-container flex min-h-20 items-center gap-4">
     <div class="navbar-start w-auto sm:w-1/2">
       <div class="dropdown">
@@ -88,20 +94,19 @@ export default {
         </ul>
       </div>
     </div>
-    <div class="navbar-center">
+    <div class="navbar-center shrink-0">
       <router-link to="/" class="text-xl font-black tracking-tight text-slate-900 sm:text-2xl"
         ><span class="text-indigo-600">Northstar</span> Market</router-link
       >
     </div>
-    <div class="hidden flex-1 md:block">
-      <label class="flex h-11 items-center gap-3 rounded-md bg-slate-100 px-4 text-sm text-slate-400">
-        <span class="text-lg">⌕</span>
-        <input class="w-full bg-transparent outline-none" placeholder="Search products, shops and more" />
+    <div class="hidden max-w-2xl flex-1 md:block">
+      <label class="flex h-11 items-center gap-3 rounded-md border border-slate-200 bg-slate-50 px-4 text-sm text-slate-400 focus-within:border-indigo-400 focus-within:bg-white">
+        <span class="text-xl font-bold text-indigo-600">⌕</span>
+        <input class="w-full bg-transparent outline-none placeholder:text-slate-400" placeholder="Search products, shops and more" />
       </label>
     </div>
     <div class="navbar-end">
-      <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost">
+      <router-link to="/cart" class="group relative rounded-md p-2 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600" aria-label="Open shopping cart">
           <div class="indicator">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -117,24 +122,9 @@ export default {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <span class="badge badge-sm indicator-item">{{ cartStore.itemCount }}</span>
+            <span class="absolute -right-1 -top-1 min-w-5 rounded-full bg-cyan-400 px-1 text-center text-xs font-black text-slate-950">{{ cartStore.itemCount }}</span>
           </div>
-        </label>
-        <div
-          tabindex="0"
-          class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow-md rounded-md"
-        >
-          <div class="card-body">
-            <span class="font-bold text-lg">{{ cartStore.itemCount }} Items</span>
-            <span class="text-info">Subtotal: ${{ cartStore.subtotal.toFixed(2) }}</span>
-            <div class="card-actions">
-              <router-link to="/cart" class="btn btn-primary btn-block"
-                >View cart</router-link
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+      </router-link>
       <router-link
         to="/login"
         class="rounded-md bg-indigo-600 px-4 py-2 font-bold text-white hover:bg-indigo-700"
