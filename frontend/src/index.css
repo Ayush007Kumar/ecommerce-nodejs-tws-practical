@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+	color: #172033;
+	background: #f4f6fb;
+}
+
+body {
+	margin: 0;
+	min-width: 320px;
+	background: #f4f6fb;
+}
+
+button,
+a,
+input {
+	transition: all 180ms ease;
+}
+
+.market-shell {
+	min-height: 100vh;
+	background: linear-gradient(180deg, #eef3ff 0, #f7f8fc 340px, #f4f6fb 100%);
+}
+
+.market-container {
+	width: min(1240px, calc(100% - 32px));
+	margin: 0 auto;
+}
+
+.product-card {
+	overflow: hidden;
+	border: 1px solid #e5e9f2;
+	border-radius: 10px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(25, 43, 76, 0.06);
+}
+
+.product-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 14px 30px rgba(25, 43, 76, 0.12);
+}
